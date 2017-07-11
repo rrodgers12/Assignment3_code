@@ -5,8 +5,7 @@ best <- function(state, outcome) {
         state <- toupper(state)
         outcome <- tolower(outcome)
         
-        # Read in the data from cwd
-        # Pull out only needed columns:
+        # Read in the data from cwd and extract only the needed columns:
         # 2 = name, 7 = state
         # "heart attack" = col 11, "heart failure" = col 17, "pneumonia" = col 23
         outcomeFullDF <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
@@ -19,19 +18,17 @@ best <- function(state, outcome) {
         }
         
         # Check outcome validity, stop if invalid
-        # Else, set the column number variable to coincide with correct column in DF
+        # Else, set outcomeColumn based on the value of the outcome argument
+        # Default value to the switch runs the stop() function
         outcomeColumn = 0
 
-        # Set outcomeColumn based on value of outcome
-        # Default value runs the stop() function
         switch(outcome, 
                "heart attack" = outcomeColumn <- 3,
                "heart failure" = outcomeColumn <- 4,
                "pneumonia" = outcomeColumn <- 5,
                stop("invalid outcome"))
 
-        # Subset the full data frame by state and removing entries with missing data 
-        # in specified condition column
+        # Subset the full data frame by state and removing entries with missing data in specied condition column 
         stateSubset <- subset(outcomeResizedDF, subset = outcomeResizedDF$State == state & outcomeResizedDF[ , outcomeColumn] != "Not Available")
         
         # Order by mortality rate, then hospital name
