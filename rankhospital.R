@@ -37,21 +37,22 @@ rankhospital <- function(state, outcome, num = "best") {
         # Count the number of hospitals in the stateSubset dataframe, assign result to a variable to use if num == "worst"
         # and to check if requested rank > number of hospitals for the state
         numberOfHospitals <- nrow(stateSubset)
+        rank = 0
 
         # use num argument to select correct rank
         if(num == "best") {
-                num <- 1
+                rank <- 1
         } else if (num == "worst") {
-                num <- numberOfHospitals
+                rank <- numberOfHospitals
         } else {
-                num <- as.integer(num)
+                rank <- as.integer(num)
         }
         
         # Check if the requested rank can be returned
-        if(num > numberOfHospitals) {
+        if(rank > numberOfHospitals) {
                 return(NA) 
         } else {
-                return(stateSubset[num, "Hospital.Name"])
+                return(stateSubset[rank, "Hospital.Name"])
                 }
         
 }
